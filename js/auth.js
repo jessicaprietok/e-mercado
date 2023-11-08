@@ -45,16 +45,16 @@ function createDropdown() {
         CerrarSesion();
       });
       dropdownMenu.appendChild(drop4);
-
-
       dropdownContainer.appendChild(dropdownToggle);
       dropdownContainer.appendChild(dropdownMenu);
 
       navbarNav.appendChild(dropdownContainer);
     }
+         // Establece el nombre de usuario (E-mail)
+         const usernameField = document.getElementById("username");
+         usernameField.value = savedUsername;
   }
 }
-
 document.addEventListener("DOMContentLoaded", function () {
   createDropdown();
 });

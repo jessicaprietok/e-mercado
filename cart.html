@@ -33,31 +33,34 @@
     </div>
   </nav>
 
-  <main class="container mt-4">
-    <h1 class="text-center">Carrito de Compras</h1>
+  <main class="container mt-5">
+    <h1 class="text-center mb-4">Carrito de Compras</h1>
+  
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre del Producto</th>
+            <th>Costo</th>
+            <th>Cantidad</th>
+            <th>Moneda</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="product-table-body">
+          <!-- Filas de productos se agregarán aquí -->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5" class="text-end">Total:</td>
+            <td id="total"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Imagen</th>
-          <th>Nombre del Producto</th>
-          <th>Costo</th>
-          <th>Cantidad</th>
-          <th>Moneda</th>
-          <th>Subtotal</th>
-
-        </tr>
-      </thead>
-      <tbody id="product-table-body">
-        <!-- Filas de productos se agregarán aquí -->
-      </tbody>
-      <tr>
-        <td colspan="5"></td>
-        <td id="total">Total:</td>
-      </tr>
-    </table>
-
-    <div class="row mt-4">
+    <div class="row mt-4 gx-3">
       <div class="col-md-6">
         <h3>Selección de Envío</h3>
         <div class="form-check">
@@ -77,24 +80,109 @@
           <label class="form-check-label" for="standard">
             Standard (12-15 días, 5% recargo)
           </label>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h3>Dirección de Envío</h3>
-        <div class="mb-3">
-          <label for="street" class="form-label">Calle</label>
-          <input type="text" class="form-control" id="street">
-        </div>
-        <div class="mb-3">
-          <label for="number" class="form-label">Número</label>
-          <input type="text" class="form-control" id="number">
-        </div>
-        <div class="mb-3">
-          <label for="corner" class="form-label">Esquina</label>
-          <input type="text" class="form-control" id="corner">
+          <div id="shipping-error" class="error-message"></div>
         </div>
       </div>
     </div>
+    <br>
+    <hr>
+    <div class="col-md-6">
+      <h3>Dirección de Envío</h3>
+      <div class="mb-3">
+        <label for="street" class="form-label">Calle</label>
+        <input type="text" class="form-control" id="street">
+        <div class="error-message" id="street-error"></div>
+      </div>
+
+      <div class="mb-3">
+        <label for="number" class="form-label">Número</label>
+        <input type="text" class="form-control" id="number">
+        <div class="error-message" id="number-error"></div>
+      </div>
+      <div class="mb-3">
+        <label for="corner" class="form-label">Esquina</label>
+        <input type="text" class="form-control" id="corner">
+        <div class="error-message" id="corner-error"></div>
+      </div>
+    </div>
+    
+    </div>
+    <hr>
+    <br>
+    <!-- Subtotal general -->
+    <div class="row justify-content-between mt-4">
+      <div class="col-md-4">
+        <h3>Costo</h3>
+        <p id="subtotal-general">Subtotal General: <span id="subtotal-amount">USD0</span></p>
+        <p id="shipping-cost">Costo de Envío: <span id="shipping-amount">USD0</span></p>
+        <p id="total-to-pay">Total a Pagar($): <span id="total-amount">USD0</span></p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <h3>Forma de pago</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">Seleccionar</button>
+      </div>
+    </div>
+    <!-- Modal -->
+
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-header">
+              <h5 class="modal-title" id="paymentModalLabel">Seleccione una forma de pago</h5>
+              
+              
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="creditCardRadio"
+                  value="Tarjeta de Crédito">
+                <label class="form-check-label" for="creditCardRadio">Tarjeta de Crédito</label>
+              </div>
+
+              <div class="mb-3">
+                <input type="text" class="form-control" id="creditCardNumber" placeholder="Número de tarjeta">
+                <div class="error-message" id="number-card"></div>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="creditCardCode" placeholder="Código de seg.">
+                <div class="error-message" id="card-code"></div>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="creditCardExpiry" placeholder="Vencimiento (MM/AA)">
+                <div class="error-message" id="card-expiry"></div>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransferRadio"
+                  value="Transferencia Bancaria">
+                <label class="form-check-label" for="bankTransferRadio">Transferencia Bancaria</label>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="bankAccount" placeholder="Número de cuenta bancaria">
+                <div class="error-message" id="number-account"></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="payment-error" class="error-message"></div>
+
+    <!-- Botón de Confirmar Compra -->
+    <button type="button" class="btn btn-success" id="confirmPurchaseButton">Finalizar Compra</button>
+
+    <div id="confirmation-message" class="alert alert-success" style="display: none;">
+      ¡Has comprado con éxito!
+    </div>
+
+    <hr>
+    <br>
 
     <footer class="text-muted">
       <div class="container text-center">
@@ -118,6 +206,7 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/product-info.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
 </body>
 
 </html>
